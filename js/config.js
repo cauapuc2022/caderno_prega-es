@@ -1,14 +1,14 @@
-// CONFIGURAÇÃO ÚNICA DO PROJETO
-// Depois de criar/selecionar seu Web App no Firebase Console, cole aqui o firebaseConfig.
-// Estes valores do SDK web não são segredos; a segurança real está nas regras e no backend.
+// CONFIGURAÇÃO DO FIREBASE — CADERNO DE PREGAÇÕES
+
 export const firebaseConfig = {
-  apiKey: "COLE_AQUI",
-  authDomain: "COLE_AQUI.firebaseapp.com",
-  projectId: "COLE_AQUI",
-  storageBucket: "COLE_AQUI.firebasestorage.app",
-  messagingSenderId: "COLE_AQUI",
-  appId: "COLE_AQUI"
+  apiKey: "AIzaSyBWek3oW4lp-g9YAFYOoF7gYVj1Q5BWWF8",
+  authDomain: "cadernopregacoes.firebaseapp.com",
+  projectId: "cadernopregacoes",
+  storageBucket: "cadernopregacoes.firebasestorage.app",
+  messagingSenderId: "213516602215",
+  appId: "1:213516602215:web:d4152997f3e1f23588fdc2"
 };
 
-// Quando o pagamento estiver configurado, a Function createCheckoutSession será usada.
-export const REQUIRE_ACTIVE_SUBSCRIPTION = false; // mude para true após configurar checkout/webhook
+// Por enquanto o pagamento permanece desativado.
+// Primeiro vamos testar login + banco de dados.
+export const REQUIRE_ACTIVE_SUBSCRIPTION = false;

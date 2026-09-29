@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Caderno de Pregações | Organize • Estude • Pregue • Impacte</title>
+  <style>
+    :root{
+      --navy:#07131f;
+      --navy-2:#0b1c2c;
+      --navy-3:#10283c;
+      --gold:#c8a86b;
+      --gold-soft:#e6d3a8;
+      --cream:#f7f4ed;
+      --paper:#ffffff;
+      --ink:#14202b;
+      --muted:#71808d;
+      --line:#e5e9ec;
+      --soft:#f2f5f6;
+      --danger:#b54f50;
+      --shadow:0 18px 50px rgba(7,19,31,.09);
+      --shadow-soft:0 8px 28px rgba(7,19,31,.07);
+      --radius:20px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:"Segoe UI Variable Text","Segoe UI",Arial,sans-serif;
+      background:
+        radial-gradient(circle at 8% 0%, rgba(200,168,107,.10), transparent 24rem),
+        linear-gradient(180deg,#f8f7f3 0%,#f4f6f7 100%);
+      color:var(--ink);
+      min-height:100vh;
+    }
+    button,input,textarea{font:inherit}
+    button{transition:.18s ease}
+    header{
+      background:
+        radial-gradient(circle at 82% 10%,rgba(200,168,107,.16),transparent 25rem),
+        linear-gradient(135deg,var(--navy),var(--navy-2));
+      color:white;
+      position:relative;
+      overflow:hidden;
+      box-shadow:0 12px 35px rgba(7,19,31,.15);
+    }
+    header:after{
+      content:"✦";
+      position:absolute;
+      right:4%;
+      top:-48px;
+      font-family:"Segoe UI Variable Display","Segoe UI",Arial,sans-serif;
+      font-size:220px;
+      line-height:1;
+      color:rgba(255,255,255,.025);
+      pointer-events:none;
+    }
+    .header-content{
+      width:min(1240px,92%);
+      margin:auto;
+      min-height:168px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:50px;
+      position:relative;
+      z-index:1;
+    }
+    .brand{
+      font-family:"Segoe UI Variable Display","Segoe UI",Arial,sans-serif;
+      font-size:31px;
+      font-weight:600;
+      letter-spacing:-.5px;
+      white-space:nowrap;
+    }
+    .brand:before{
+      content:"✦";
+      color:var(--gold);
+      font-size:18px;
+      vertical-align:4px;
+      margin-right:10px;
+    }
+    .brand small{
+      display:block;
+      font:600 10px Inter,Arial,sans-serif;
+      letter-spacing:3px;
+      text-transform:uppercase;
+      color:rgba(255,255,255,.55);
+      margin:7px 0 0 32px;
+    }
+    .daily-word{
+      max-width:610px;
+      border-left:1px solid rgba(200,168,107,.38);
+      padding:3px 0 3px 30px;
+    }
+    .daily-label{
+      font-size:10px;
+      font-weight:800;
+      letter-spacing:2px;
+      text-transform:uppercase;
+      color:var(--gold);
+      margin-bottom:8px;
+    }
+    .daily-text{
+      font-family:"Segoe UI Variable Display","Segoe UI",Arial,sans-serif;
+      font-size:17px;
+      line-height:1.55;
+      color:#f6f3ec;
+      font-style:italic;
+    }
+    .daily-ref{
+      margin-top:7px;
+      font-size:11px;
+      font-weight:800;
+      letter-spacing:.7px;
+      color:var(--gold-soft);
+    }
+    main{width:min(1240px,92%);margin:32px auto 70px}
+    .urlbox{
+      display:grid;
+      grid-template-columns:1fr auto;
+      gap:10px;
+      background:rgba(255,255,255,.9);
+      padding:10px;
+      border:1px solid rgba(20,32,43,.08);
+      border-radius:16px;
+      box-shadow:var(--shadow-soft);
+      backdrop-filter:blur(10px);
+    }
+    input,textarea{
+      width:100%;
+      border:1px solid var(--line);
+      background:#fff;
+      border-radius:12px;
+      padding:13px 14px;
+      color:var(--ink);
+      outline:none;
+      transition:.18s ease;
+    }
+    .urlbox input{border:0;background:transparent;padding-left:15px}
+    input:focus,textarea:focus{
+      border-color:rgba(200,168,107,.9);
+      box-shadow:0 0 0 4px rgba(200,168,107,.12);
+    }
+    button{
+      border:0;
+      border-radius:11px;
+      padding:12px 17px;
+      font-weight:750;
+      cursor:pointer;
+    }
+    button:hover{transform:translateY(-1px)}
+    .primary{
+      background:linear-gradient(135deg,var(--navy-2),var(--navy));
+      color:white;
+      white-space:nowrap;
+      box-shadow:0 6px 16px rgba(7,19,31,.15);
+    }
+    .primary:hover{box-shadow:0 9px 22px rgba(7,19,31,.22)}
+    .secondary{background:#edf1f2;color:var(--navy)}
+    .danger{background:#fff1f0;color:var(--danger)}
+    .status{
+      font-size:11px;
+      color:var(--muted);
+      margin:8px 5px 0;
+      min-height:16px;
+    }
+    .workspace{
+      display:grid;
+      grid-template-columns:1.08fr .92fr;
+      gap:24px;
+      margin-top:24px;
+      align-items:start;
+    }
+    .left{position:sticky;top:22px}
+    .card{
+      background:rgba(255,255,255,.96);
+      border:1px solid rgba(20,32,43,.07);
+      border-radius:var(--radius);
+      padding:20px;
+      box-shadow:var(--shadow);
+    }
+    .left .card{padding:12px}
+    .video-wrap{
+      position:relative;
+      padding-top:56.25%;
+      background:linear-gradient(135deg,#06111c,#10283c);
+      border-radius:15px;
+      overflow:hidden;
+      box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);
+    }
+    .video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+    .placeholder{
+      position:absolute;
+      inset:0;
+      display:grid;
+      place-items:center;
+      text-align:center;
+      color:rgba(255,255,255,.6);
+      padding:30px;
+    }
+    .placeholder strong{
+      color:white;
+      font-family:"Segoe UI Variable Display","Segoe UI",Arial,sans-serif;
+      font-size:20px;
+      font-weight:500;
+    }
+    .hint{
+      margin:12px 4px 2px;
+      padding:11px 13px;
+      border-radius:10px;
+      background:#f6f4ee;
+      color:#746b5e;
+      font-size:11px;
+      line-height:1.5;
+      border-left:3px solid var(--gold);
+    }
+    .section-title{
+      font-family:"Segoe UI Variable Display","Segoe UI",Arial,sans-serif;
+      font-size:23px;
+      font-weight:600;
+      margin:0 0 18px;
+      color:var(--navy);
+      letter-spacing:-.2px;
+    }
+    .section-title:after{
+      content:"";
+      display:block;
+      width:36px;
+      height:2px;
+      background:var(--gold);
+      margin-top:8px;
+      border-radius:5px;
+    }
+    .meta{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:15px}
+    label{
+      display:block;
+      font-size:9px;
+      font-weight:850;
+      letter-spacing:1.3px;
+      text-transform:uppercase;
+      color:#7b8790;
+      margin:0 0 7px 2px;
+    }
+    .field{margin-bottom:15px}
+    textarea{resize:vertical;line-height:1.6}
+    #notes{
+      min-height:300px;
+      background:
+        repeating-linear-gradient(#fff 0,#fff 31px,#eef0f1 32px);
+      line-height:32px;
+      padding-top:7px;
+    }
+    #verses{min-height:95px}
+    #takeaways{min-height:105px}
+    .toolbar{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:center;
+      margin-top:8px;
+    }
+    .save{font-size:11px;color:var(--muted)}
+    .save-actions{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+      margin-top:15px;
+      padding-top:15px;
+      border-top:1px solid var(--line);
+    }
+    .library{
+      margin-top:28px;
+      padding:25px;
+      background:
+        linear-gradient(180deg,rgba(255,255,255,.98),rgba(251,251,249,.98));
+    }
+    .library-head{
+      display:flex;
+      justify-content:space-between;
+      gap:15px;
+      align-items:center;
+      margin-bottom:19px;
+    }
+    .library-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .sermon-item{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:18px;
+      box-shadow:0 4px 16px rgba(7,19,31,.045);
+      cursor:pointer;
+      transition:.2s ease;
+      position:relative;
+      overflow:hidden;
+      min-height:145px;
+    }
+    .sermon-item:before{
+      content:"";
+      position:absolute;
+      left:0;top:0;bottom:0;
+      width:3px;
+      background:var(--gold);
+      opacity:.8;
+    }
+    .sermon-item:hover{
+      transform:translateY(-3px);
+      border-color:rgba(200,168,107,.55);
+      box-shadow:0 12px 28px rgba(7,19,31,.09);
+    }
+    .sermon-item h3{
+      font-family:"Segoe UI Variable Display","Segoe UI",Arial,sans-serif;
+      margin:0 0 8px;
+      font-size:18px;
+      color:var(--navy);
+      padding-right:25px;
+    }
+    .sermon-item p{margin:4px 0;color:var(--muted);font-size:12px}
+    .sermon-item .verse-preview{
+      margin-top:12px;
+      color:#485662;
+      font-size:11px;
+      line-height:1.5;
+      padding-top:10px;
+      border-top:1px solid #f0f1f1;
+    }
+    .delete-sermon{
+      position:absolute;
+      right:9px;
+      top:9px;
+      padding:4px 8px;
+      background:transparent;
+      color:#9ba5ad;
+      font-size:16px;
+      box-shadow:none;
+    }
+    .delete-sermon:hover{color:var(--danger);background:#fff1f0;transform:none}
+    .empty-library{
+      grid-column:1/-1;
+      text-align:center;
+      padding:34px;
+      border:1px dashed #d6dcdf;
+      border-radius:15px;
+      color:var(--muted);
+      background:#fafbfb;
+      font-size:13px;
+      line-height:1.6;
+    }
+    footer{
+      text-align:center;
+      color:#89949d;
+      font-size:10px;
+      letter-spacing:.4px;
+      margin-top:28px;
+    }
+    @media(max-width:900px){
+      .header-content{min-height:auto;padding:26px 0;flex-direction:column;align-items:flex-start;gap:20px}
+      .brand{font-size:27px}
+      .daily-word{max-width:none;border-left:0;border-top:1px solid rgba(200,168,107,.3);padding:16px 0 0}
+      .workspace{grid-template-columns:1fr}
+      .left{position:static}
+      .library-grid{grid-template-columns:1fr 1fr}
+    }
+    @media(max-width:600px){
+      main{width:94%;margin-top:18px}
+      .urlbox{grid-template-columns:1fr}
+      .urlbox .primary{width:100%}
+      .meta{grid-template-columns:1fr}
+      .library-grid{grid-template-columns:1fr}
+      .library-head{align-items:flex-start;flex-direction:column}
+      .toolbar{align-items:flex-start;flex-direction:column}
+      .save-actions .primary{width:100%}
+      .daily-text{font-size:15px}
+      .card{padding:16px}
+    }
+
+    /* NOVA IDENTIDADE VISUAL — CADERNO DE PREGAÇÕES */
+    :root{
+      --navy:#07131f;--navy-2:#0b1c2c;--navy-3:#10283c;
+      --gold:#c8a86b;--gold-soft:#e6d3a8;--cream:#f7f4ed;
+      --paper:#fffdfa;--ink:#14202b;--muted:#71808d;--line:#e7e2d8;
+      --soft:#f3f0e9;--danger:#a95050;
+      --shadow:0 20px 55px rgba(7,19,31,.10);--shadow-soft:0 8px 28px rgba(7,19,31,.07);
+      --radius:18px;
+    }
+    body{background:linear-gradient(180deg,#f8f5ee 0,#f4f5f4 55%,#f8f5ee 100%);}
+    header{background:radial-gradient(circle at 75% 0%,rgba(200,168,107,.20),transparent 28rem),linear-gradient(135deg,#06111c 0%,#0b2132 100%);border-bottom:1px solid rgba(200,168,107,.28)}
+    header:after{content:"✦";font-size:260px;color:rgba(200,168,107,.035);top:-65px}
+    .header-content{min-height:152px}
+    .brand{font-size:30px;text-transform:uppercase;letter-spacing:2.2px;line-height:1.1}
+    .brand:before{display:none}.brand-mark{color:var(--gold);font-size:24px;margin-right:7px;text-shadow:0 0 25px rgba(200,168,107,.28)}
+    .brand small{font-family:"Segoe UI Variable Text","Segoe UI",Arial,sans-serif;margin:10px 0 0 39px;color:var(--gold-soft);font-size:9px;letter-spacing:2.5px}
+    .daily-word{border-left-color:rgba(200,168,107,.45)}.daily-label{color:var(--gold-soft)}
+    .hero-intro{text-align:center;max-width:850px;margin:42px auto 30px;padding:10px 20px}
+    .hero-kicker,.eyebrow{font-size:9px;font-weight:850;letter-spacing:2.5px;color:#a78447;text-transform:uppercase;margin-bottom:10px}
+    .hero-intro h1{font-family:"Segoe UI Variable Display","Segoe UI",Arial,sans-serif;color:var(--navy);font-size:42px;line-height:1.08;font-weight:500;letter-spacing:-1.2px;margin:0}
+    .hero-intro h1 span{color:#a77e3e}.hero-intro p{color:#6d7880;font-size:14px;margin:14px 0 0}
+    .urlbox{border:1px solid rgba(200,168,107,.22);border-radius:14px;box-shadow:0 10px 35px rgba(7,19,31,.07);padding:8px;background:rgba(255,253,250,.94)}
+    input,textarea{background:#fffdfa;border-color:#e7e2d8}.primary{background:linear-gradient(135deg,#caa969,#ae8647);color:#07131f;box-shadow:0 7px 18px rgba(168,126,62,.22)}
+    .primary:hover{box-shadow:0 10px 24px rgba(168,126,62,.32)}.secondary{background:#eef0ed;color:#0b1c2c}.danger{background:#fff4f1}
+    .card{background:rgba(255,253,250,.97);border-color:rgba(200,168,107,.17)}
+    .left .card{background:#07131f;border-color:rgba(200,168,107,.24);padding:10px}
+    .video-wrap{border:1px solid rgba(200,168,107,.18)}
+    .hint{background:#0b1c2c;color:#aab5bc;border-left-color:var(--gold);margin-bottom:2px}.hint strong{color:#fff}
+    .section-title{font-size:27px}.section-title:after{width:45px;background:linear-gradient(90deg,var(--gold),#e4c88f)}
+    label{color:#8b7a5f}.meta{gap:13px}#notes{background:repeating-linear-gradient(#fffdfa 0,#fffdfa 31px,#ece8df 32px)}
+    .library{margin-top:32px}.sermon-item{background:#fffdfa;border-color:#e8e1d5}.sermon-item:before{background:linear-gradient(180deg,#e1c185,#a97e3e)}
+    .sermon-item:hover{border-color:rgba(200,168,107,.65);box-shadow:0 15px 30px rgba(7,19,31,.09)}
+    footer{padding:34px 10px 10px;color:#7e898f;line-height:1.8}footer strong{font-family:"Segoe UI Variable Display","Segoe UI",Arial,sans-serif;color:#20303c;font-size:15px;font-weight:500}footer span{font-size:9px;color:#9aa2a6}
+    @media(max-width:600px){.hero-intro{margin:27px auto 20px}.hero-intro h1{font-size:31px}.brand{font-size:22px;letter-spacing:1.4px}.brand small{margin-left:31px;letter-spacing:1.8px}.header-content{padding:22px 0}}
+  
+    /* Identidade refinada — tipografia mais natural e marca oficial */
+    .brand-logo{display:flex;align-items:center;min-width:330px}
+    .brand-logo img{display:block;width:310px;max-width:100%;height:auto;filter:drop-shadow(0 5px 14px rgba(0,0,0,.16))}
+    .hero-intro h1{font-weight:650;letter-spacing:-1.5px}
+    .section-title{font-weight:650;letter-spacing:-.45px}
+    .daily-text{font-style:normal;font-weight:400;letter-spacing:-.1px}
+    .hero-kicker,.eyebrow,.daily-label,label{letter-spacing:1.35px}
+    .sermon-item h3{font-weight:650;letter-spacing:-.25px}
+    footer strong{font-weight:650}
+    @media(max-width:600px){.brand-logo{min-width:0}.brand-logo img{width:255px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="header-content">
+    <div class="brand-logo"><img src="assets/logo_caderno_pregacoes.png" alt="Caderno de Pregações"></div>
+    <div class="daily-word" title="A passagem muda automaticamente a cada dia">
+      <div class="daily-label">PALAVRA DO DIA</div>
+      <div id="dailyText" class="daily-text"></div>
+      <div id="dailyRef" class="daily-ref"></div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero-intro">
+    <div class="hero-kicker">SEU ESPAÇO DE ESTUDO E PREPARAÇÃO</div>
+    <h1>Transforme mensagens em <span>aprendizado que permanece.</span></h1>
+    <p>Assista, registre, organize e consulte suas pregações em um só lugar.</p>
+  </section>
+  <section>
+    <div class="urlbox">
+      <input id="youtubeUrl" type="url" placeholder="Cole aqui o link da pregação no YouTube">
+      <button class="primary" onclick="loadVideo()">Carregar pregação</button>
+    </div>
+    <div id="status" class="status">Aceita links como youtube.com/watch?v=..., youtu.be/... e youtube.com/shorts/...</div>
+  </section>
+
+  <div class="workspace">
+    <div class="left">
+      <div class="card">
+        <div class="video-wrap" id="videoWrap">
+          <div class="placeholder">
+            <div>
+              <strong>Seu vídeo aparecerá aqui</strong><br><br>
+              Cole o link do YouTube acima para começar.
+            </div>
+          </div>
+        </div>
+        <div class="hint">
+          Dica: dê play na pregação e escreva ao lado. Suas anotações são salvas automaticamente neste navegador.
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="eyebrow">ESTUDO ATUAL</div><h2 class="section-title">Minhas anotações</h2>
+
+      <div class="meta">
+        <div>
+          <label for="title">TEMA / TÍTULO</label>
+          <input id="title" placeholder="Ex.: Fé em tempos difíceis">
+        </div>
+        <div>
+          <label for="preacher">PREGADOR</label>
+          <input id="preacher" placeholder="Nome do pregador">
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="verses">VERSÍCULOS-CHAVE</label>
+        <textarea id="verses" placeholder="Ex.: Romanos 8:28 — ..."></textarea>
+      </div>
+
+      <div class="field">
+        <label for="notes">ANOTAÇÕES DA PREGAÇÃO</label>
+        <textarea id="notes" placeholder="Escreva aqui os pontos principais, frases, reflexões..."></textarea>
+      </div>
+
+      <div class="field">
+        <label for="takeaways">APLICAÇÃO / O QUE LEVAR COMIGO</label>
+        <textarea id="takeaways" placeholder="O que essa mensagem me ensina? O que posso colocar em prática?"></textarea>
+      </div>
+
+      <div class="toolbar">
+        <span id="saveStatus" class="save">Rascunho salvo automaticamente</span>
+        <button class="danger" onclick="clearNotes()">Limpar anotações</button>
+      </div>
+      <div class="save-actions">
+        <button class="primary" onclick="saveSermon()">Salvar na biblioteca</button>
+        <span class="save">Guarde este estudo para consultar quando quiser.</span>
+      </div>
+    </div>
+  </div>
+
+  <section class="library card">
+    <div class="library-head">
+      <div>
+        <div class="eyebrow">SEUS ESTUDOS</div><h2 class="section-title" style="margin-bottom:5px">Minha Biblioteca</h2>
+        <div class="save">Pregações e anotações que você já salvou.</div>
+      </div>
+      <button class="secondary" onclick="newSermon()">+ Nova pregação</button>
+    </div>
+    <div id="libraryGrid" class="library-grid"></div>
+  </section>
+
+  <footer><strong>Caderno de Pregações</strong><br>Organize • Estude • Pregue • Impacte<br><span>Suas pregações ficam vinculadas à sua conta e protegidas no Firebase.</span></footer>
+  <div style="text-align:center;margin:22px 0 0"><span id="userInfo" class="save"></span> &nbsp; <button class="secondary" onclick="logout()">Sair</button></div>
+</main>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
